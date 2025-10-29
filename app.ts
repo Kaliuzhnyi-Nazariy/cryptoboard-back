@@ -10,7 +10,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["https://cryptoboard-unor.onrender.com", "http://localhost:3000"],
+    origin: [
+      "https://cryptoboard-rho.vercel.app/",
+      "https://cryptoboard-unor.onrender.com",
+      "http://localhost:3000",
+    ],
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders:
