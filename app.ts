@@ -11,7 +11,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://cryptoboard-rho.vercel.app/",
+      "https://cryptoboard-rho.vercel.app",
       "https://cryptoboard-unor.onrender.com",
       "http://localhost:3000",
     ],
