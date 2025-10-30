@@ -6,7 +6,7 @@
     "dev": "nodemon server.ts",
     "backend:build": "tsc -p tsconfig.json",
     "build": "npm run backend:build",
-    "start": "node dist/server.js"
+    "start": "set NODE_ENV=production && node dist/server.js"
   },
   "keywords": [],
   "author": "",
