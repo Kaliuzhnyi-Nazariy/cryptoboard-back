@@ -6,6 +6,7 @@ import walletRoute from "./route/wallet";
 import transactionRoute from "./route/transaction";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import { NextFunction, Request, Response } from "express-serve-static-core";
 
 const app = express();
 
@@ -23,6 +24,12 @@ app.use(
       "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe",
   })
 );
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 app.use(cookieParser());
 
