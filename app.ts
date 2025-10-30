@@ -5,6 +5,7 @@ import userRoute from "./route/user";
 import walletRoute from "./route/wallet";
 import transactionRoute from "./route/transaction";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use(
       "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe",
   })
 );
+
+app.use(cookieParser());
 
 app.use(express.json());
 
