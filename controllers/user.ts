@@ -13,8 +13,8 @@ const getMe = (req: UserRequest, res: Response) => {
   if (!data) {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: true,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
     });
 
@@ -123,8 +123,8 @@ const deleteUser = async (req: Request, res: Response) => {
 
   res.clearCookie("token", {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
     maxAge: 1 * 24 * 60 * 60 * 1000,
   });
