@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: [
       "https://cryptoboard-rho.vercel.app",
-      "https://cryptoboard-24p1ggjw5-nazariis-projects-5a199c42.vercel.app/",
+      "https://cryptoboard-24p1ggjw5-nazariis-projects-5a199c42.vercel.app",
       "https://cryptoboard-unor.onrender.com",
       "http://localhost:3000",
     ],
