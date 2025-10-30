@@ -57,6 +57,7 @@ const signUp = async (req: Request<{}, {}, SignUpUser>, res: Response) => {
     secure: true,
     sameSite: "lax",
     path: "/",
+    maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 
   return res.status(201).json(updUser);
@@ -96,6 +97,7 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
     secure: true,
     sameSite: "lax",
     path: "/",
+    maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 
   return res.status(200).json(updUser);
@@ -121,6 +123,7 @@ const signOut = async (req: Request, res: Response) => {
     secure: true,
     sameSite: "lax",
     path: "/",
+    maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 
   return res.status(200).json(updUser);

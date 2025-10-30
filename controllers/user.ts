@@ -126,6 +126,7 @@ const deleteUser = async (req: Request, res: Response) => {
     secure: true,
     sameSite: "lax",
     path: "/",
+    maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 
   return res.status(200).json(deleteUser);
