@@ -23,6 +23,8 @@ const isAuthenticated = async (
     // token = req.headers['set-cookie']?.split('; ')
   }
 
+  console.log({ token });
+
   const authorization = token;
 
   if (!authorization) throw new Error("Unauthorized");
