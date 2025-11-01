@@ -113,6 +113,7 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
       "set-cookie": "check=check; HttpOnly",
       "access-control-allow-credentials": "true",
       "access-control-max-age": "24*60*60*1000",
+      SameSite: "none",
     })
     .send();
 
