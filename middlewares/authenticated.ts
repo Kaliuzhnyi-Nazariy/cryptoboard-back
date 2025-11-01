@@ -51,15 +51,14 @@ const isAuthenticated = async (
 
     await User.findByIdAndUpdate(id, { token: newToken });
 
-    res
-      .cookie("token", newToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        path: "/",
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-      })
-      .send();
+    res.cookie("token", newToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+    });
+    // .send();
 
     next();
   } catch (error) {
