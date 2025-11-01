@@ -100,16 +100,15 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
   //   maxAge: 1 * 24 * 60 * 60 * 1000,
   // });
 
-  // res.cookie("token", newToken, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "production",
-  //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  //   path: "/",
-  //   maxAge: 1 * 24 * 60 * 60 * 1000,
-  // });
+  res.cookie("token", newToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
+    maxAge: 1 * 24 * 60 * 60 * 1000,
+  });
 
   return res
-    .status(200)
     .cookie("token", newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -117,6 +116,7 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
       path: "/",
       maxAge: 1 * 24 * 60 * 60 * 1000,
     })
+    .status(200)
     .json(updUser);
 };
 
