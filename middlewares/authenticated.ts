@@ -27,7 +27,17 @@ const isAuthenticated = async (
 
   const authorization = token;
 
-  if (!authorization) throw new Error("Unauthorized");
+  if (!authorization) {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
+      maxAge: 1 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(401).json({ message: "Unauthorized!" });
+  }
 
   console.log({ authorization });
 
@@ -45,7 +55,17 @@ const isAuthenticated = async (
 
     console.log({ user });
 
-    if (!user) return next(new Error("Unauthorized! !user"));
+    if (!authorization) {
+      res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+      });
+
+      return res.status(401).json({ message: "Unauthorized! !user" });
+    }
 
     (req as unknown as UserRequest).user = user;
 
