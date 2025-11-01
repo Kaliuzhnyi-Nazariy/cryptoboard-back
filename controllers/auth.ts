@@ -112,6 +112,7 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
     .writeHead(200, {
       "set-cookie": "check=check; HttpOnly",
       "access-control-allow-credentials": "true",
+      "access-control-max-age": "24*60*60*1000",
     })
     .send();
 
