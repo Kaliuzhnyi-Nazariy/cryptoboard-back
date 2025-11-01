@@ -10,10 +10,18 @@ const isAuthenticated = async (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.headers.cookie
+  let token;
+
+  token = req.headers.cookie
     ?.split("; ")
     .filter((cook) => cook.includes("token="))[0]
     .split("=")[1];
+
+  if (!token) {
+    console.log("set-cookie");
+    console.log(req.headers["set-cookie"]);
+    // token = req.headers['set-cookie']?.split('; ')
+  }
 
   const authorization = token;
 
