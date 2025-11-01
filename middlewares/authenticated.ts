@@ -28,8 +28,14 @@ const isAuthenticated = async (
     ) as unknown as {
       id: string;
     };
+
+    console.log({ id });
+
     const user = await User.findById<IUser>(id).select("-password");
-    if (!user) return next(new Error("unauthorized"));
+
+    console.log({ id });
+
+    if (!user) return next(new Error("Unauthorized! !user"));
 
     (req as unknown as UserRequest).user = user;
 
@@ -41,15 +47,20 @@ const isAuthenticated = async (
       expiresIn: "24h",
     });
 
+    console.log({ newToken });
+
     await User.findByIdAndUpdate(id, { token: newToken });
 
-    res.cookie("token", newToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-      maxAge: 1 * 24 * 60 * 60 * 1000,
-    });
+    res
+      .cookie("token", newToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+      })
+      .send();
+
     next();
   } catch (error) {
     next(error);
