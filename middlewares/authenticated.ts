@@ -17,13 +17,7 @@ const isAuthenticated = async (
     .filter((cook) => cook.includes("token="))[0]
     .split("=")[1];
 
-  if (!token) {
-    console.log("set-cookie");
-    console.log(req.headers["set-cookie"]);
-    // token = req.headers['set-cookie']?.split('; ')
-  }
-
-  console.log({ token });
+  // console.log({ token });
 
   const authorization = token;
 
@@ -39,7 +33,7 @@ const isAuthenticated = async (
     return res.status(401).json({ message: "Unauthorized!" });
   }
 
-  console.log({ authorization });
+  // console.log({ authorization });
 
   try {
     const { id } = jwt.verify(
@@ -49,13 +43,13 @@ const isAuthenticated = async (
       id: string;
     };
 
-    console.log({ id });
+    // console.log({ id });
 
     const user = await User.findById<IUser>(id).select("-password");
 
-    console.log({ user });
+    // console.log({ user });
 
-    if (!authorization) {
+    if (!user) {
       res.clearCookie("token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -73,21 +67,21 @@ const isAuthenticated = async (
       id,
     };
 
-    const newToken = jwt.sign(payload, SECRET_JWT as string, {
-      expiresIn: "24h",
-    });
+    // const newToken = jwt.sign(payload, SECRET_JWT as string, {
+    //   expiresIn: "24h",
+    // });
 
-    console.log({ newToken });
+    // console.log({ newToken });
 
-    await User.findByIdAndUpdate(id, { token: newToken });
+    // await User.findByIdAndUpdate(id, { token: newToken });
 
-    res.cookie("token", newToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-      maxAge: 1 * 24 * 60 * 60 * 1000,
-    });
+    // res.cookie("token", newToken, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    //   path: "/",
+    //   maxAge: 1 * 24 * 60 * 60 * 1000,
+    // });
     // .send();
 
     next();
