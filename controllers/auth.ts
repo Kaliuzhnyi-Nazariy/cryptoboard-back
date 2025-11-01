@@ -108,14 +108,14 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
     maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 
-  res
-    .writeHead(200, {
-      "set-cookie": "check=check; HttpOnly",
-      "access-control-allow-credentials": "true",
-      "access-control-max-age": "24*60*60*1000",
-      SameSite: "none",
-    })
-    .send();
+  // res
+  //   .writeHead(200, {
+  //     "set-cookie": "check=check; HttpOnly",
+  //     "access-control-allow-credentials": "true",
+  //     "access-control-max-age": "24*60*60*1000",
+  //     SameSite: "none",
+  //   })
+  //   .send();
 
   return res
     .cookie("token", newToken, {
