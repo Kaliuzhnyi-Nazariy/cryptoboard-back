@@ -33,7 +33,7 @@ const isAuthenticated = async (
 
     const user = await User.findById<IUser>(id).select("-password");
 
-    console.log({ id });
+    console.log({ user });
 
     if (!user) return next(new Error("Unauthorized! !user"));
 
