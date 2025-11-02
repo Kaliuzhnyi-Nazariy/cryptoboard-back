@@ -124,7 +124,8 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
   //   path: "/",
   //   maxAge: 1 * 24 * 60 * 60 * 1000,
   // })
-  return res.status(200).json(updUser);
+  // return res.status(200).json(updUser);
+  res.status(200).json(updUser);
 };
 
 const signOut = async (req: Request, res: Response) => {
