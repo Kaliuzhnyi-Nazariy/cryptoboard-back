@@ -7,6 +7,7 @@ import transactionRoute from "./route/transaction";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { NextFunction, Request, Response } from "express-serve-static-core";
+import { errorRoute } from "./route/error";
 
 const app = express();
 
@@ -48,5 +49,7 @@ app.use("/api/user", userRoute);
 app.use("/api/wallet", walletRoute);
 
 app.use("/api/transaction", transactionRoute);
+
+app.use(errorRoute);
 
 export default app;
