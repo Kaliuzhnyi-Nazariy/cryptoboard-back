@@ -4,7 +4,92 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "../models/user";
 import mongoose from "mongoose";
 
-const { SECRET_JWT } = process.env;
+// const { SECRET_JWT } = process.env;
+
+// // const isAuthenticated = async (
+// req: Request,
+// res: Response,
+// next: NextFunction
+// // ) => {
+// //   let token;
+
+// //   token = req.headers.cookie
+// //     ?.split("; ")
+// //     .filter((cook) => cook.includes("token="))[0]
+// //     .split("=")[1];
+
+// //   // console.log({ token });
+
+// //   const authorization = token;
+
+// //   if (!authorization) {
+// //     res.clearCookie("token", {
+// //       httpOnly: true,
+// //       secure: process.env.NODE_ENV === "production",
+// //       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+// //       path: "/",
+// //       maxAge: 1 * 24 * 60 * 60 * 1000,
+// //     });
+
+// //     return res.status(401).json({ message: "Unauthorized!" });
+// //   }
+
+// //   // console.log({ authorization });
+
+// //   try {
+// //     const { id } = jwt.verify(
+// //       authorization,
+// //       SECRET_JWT as string
+// //     ) as unknown as {
+// //       id: string;
+// //     };
+
+// //     // console.log({ id });
+
+// //     const user = await User.findById<IUser>(id).select("-password");
+
+// //     // console.log({ user });
+
+// //     if (!user) {
+// //       res.clearCookie("token", {
+// //         httpOnly: true,
+// //         secure: process.env.NODE_ENV === "production",
+// //         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+// //         path: "/",
+// //         maxAge: 1 * 24 * 60 * 60 * 1000,
+// //       });
+
+// //       return res.status(401).json({ message: "Unauthorized! !user" });
+// //     }
+
+// //     (req as unknown as UserRequest).user = user;
+
+// //     const payload = {
+// //       id,
+// //     };
+
+// //     // const newToken = jwt.sign(payload, SECRET_JWT as string, {
+// //     //   expiresIn: "24h",
+// //     // });
+
+// //     // console.log({ newToken });
+
+// //     // await User.findByIdAndUpdate(id, { token: newToken });
+
+// //     // res.cookie("token", newToken, {
+// //     //   httpOnly: true,
+// //     //   secure: process.env.NODE_ENV === "production",
+// //     //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+// //     //   path: "/",
+// //     //   maxAge: 1 * 24 * 60 * 60 * 1000,
+// //     // });
+// //     // .send();
+
+// //     next();
+// //   } catch (error) {
+// //     next(error);
+// //   }
+// // };
 
 // const isAuthenticated = async (
 //   req: Request,
@@ -18,72 +103,65 @@ const { SECRET_JWT } = process.env;
 //     .filter((cook) => cook.includes("token="))[0]
 //     .split("=")[1];
 
-//   // console.log({ token });
+//   if (!token) {
+//     const authorization = req.headers["authorization"]?.split(" ")[1];
 
-//   const authorization = token;
-
-//   if (!authorization) {
-//     res.clearCookie("token", {
-//       httpOnly: true,
-//       secure: process.env.NODE_ENV === "production",
-//       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-//       path: "/",
-//       maxAge: 1 * 24 * 60 * 60 * 1000,
-//     });
-
-//     return res.status(401).json({ message: "Unauthorized!" });
+//     token = authorization;
 //   }
 
-//   // console.log({ authorization });
+//   if (!token) res.status(401).json({ message: "Unauthorized!" });
 
 //   try {
-//     const { id } = jwt.verify(
-//       authorization,
-//       SECRET_JWT as string
-//     ) as unknown as {
-//       id: string;
-//     };
+//     // const { id } = jwt.verify(
+//     //   String(token),
+//     //   SECRET_JWT as string
+//     // ) as unknown as {
+//     //   id: string;
+//     // };
 
-//     // console.log({ id });
+//     // const { id } = jwt.verify(
+//     //   String(token),
+//     //   SECRET_JWT as string
+//     // ) as unknown as {
+//     //   id: string;
+//     // };
 
-//     const user = await User.findById<IUser>(id).select("-password");
+//     let userId;
+
+//     try {
+//       const { id } = jwt.verify(
+//         String(token),
+//         SECRET_JWT as string
+//       ) as unknown as {
+//         id: mongoose.ObjectId;
+//       };
+
+//       userId = id;
+//     } catch (error) {
+//       // console.log("error in jwt.verify: ", error);
+//       res.setHeader("authorization", "");
+//       return res.status(401).json({ message: "Time run out!" });
+//     }
+
+//     const user = await User.findById<IUser>(userId).select("-password");
 
 //     // console.log({ user });
 
 //     if (!user) {
-//       res.clearCookie("token", {
-//         httpOnly: true,
-//         secure: process.env.NODE_ENV === "production",
-//         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-//         path: "/",
-//         maxAge: 1 * 24 * 60 * 60 * 1000,
-//       });
+//       // res.clearCookie("token", {
+//       //   httpOnly: true,
+//       //   secure: process.env.NODE_ENV === "production",
+//       //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+//       //   path: "/",
+//       //   maxAge: 1 * 24 * 60 * 60 * 1000,
+//       // });
 
 //       return res.status(401).json({ message: "Unauthorized! !user" });
 //     }
+//     //https://github.com/vercel/next.js/discussions/17991
+//     //https://nextjs.org/docs/app/api-reference/config/next-config-js/headers
 
-//     (req as unknown as UserRequest).user = user;
-
-//     const payload = {
-//       id,
-//     };
-
-//     // const newToken = jwt.sign(payload, SECRET_JWT as string, {
-//     //   expiresIn: "24h",
-//     // });
-
-//     // console.log({ newToken });
-
-//     // await User.findByIdAndUpdate(id, { token: newToken });
-
-//     // res.cookie("token", newToken, {
-//     //   httpOnly: true,
-//     //   secure: process.env.NODE_ENV === "production",
-//     //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-//     //   path: "/",
-//     //   maxAge: 1 * 24 * 60 * 60 * 1000,
-//     // });
-//     // .send();
+// (req as unknown as UserRequest).user = user;
 
 //     next();
 //   } catch (error) {
@@ -91,77 +169,36 @@ const { SECRET_JWT } = process.env;
 //   }
 // };
 
+// export default isAuthenticated;
+
 const isAuthenticated = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  let token;
+  const tokenBearer = req.headers.authorization?.split(" ") || "";
 
-  token = req.headers.cookie
-    ?.split("; ")
-    .filter((cook) => cook.includes("token="))[0]
-    .split("=")[1];
+  if (tokenBearer[0] !== "Bearer") return next("Unauthorized!");
 
-  if (!token) {
-    const authorization = req.headers["authorization"]?.split(" ")[1];
+  const token = tokenBearer[1];
 
-    token = authorization;
-  }
-
-  if (!token) res.status(401).json({ message: "Unauthorized!" });
+  if (!token) return next(new Error("Unauthorize"));
 
   try {
-    // const { id } = jwt.verify(
-    //   String(token),
-    //   SECRET_JWT as string
-    // ) as unknown as {
-    //   id: string;
-    // };
+    const { id } = jwt.verify(
+      String(token),
+      process.env.SECRET_JWT as string
+    ) as unknown as {
+      id: mongoose.ObjectId;
+    };
 
-    // const { id } = jwt.verify(
-    //   String(token),
-    //   SECRET_JWT as string
-    // ) as unknown as {
-    //   id: string;
-    // };
+    if (id) {
+      const user = await User.findById<IUser>(id).select("-password");
 
-    let userId;
+      (req as unknown as UserRequest).user = user;
 
-    try {
-      const { id } = jwt.verify(
-        String(token),
-        SECRET_JWT as string
-      ) as unknown as {
-        id: mongoose.ObjectId;
-      };
-
-      userId = id;
-    } catch (error) {
-      // console.log("error in jwt.verify: ", error);
-      res.setHeader("authorization", "");
-      return res.status(401).json({ message: "Time run out!" });
+      next();
     }
-
-    const user = await User.findById<IUser>(userId).select("-password");
-
-    // console.log({ user });
-
-    if (!user) {
-      // res.clearCookie("token", {
-      //   httpOnly: true,
-      //   secure: process.env.NODE_ENV === "production",
-      //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      //   path: "/",
-      //   maxAge: 1 * 24 * 60 * 60 * 1000,
-      // });
-
-      return res.status(401).json({ message: "Unauthorized! !user" });
-    }
-
-    (req as unknown as UserRequest).user = user;
-
-    next();
   } catch (error) {
     next(error);
   }
