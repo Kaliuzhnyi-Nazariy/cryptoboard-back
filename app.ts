@@ -21,10 +21,18 @@ app.use(
     ],
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders:
-      "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe",
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "X-HTTP-Method-Override",
+      "Accept",
+      "Observe",
+    ],
   })
 );
+
+app.options("/{*any}", cors());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Credentials", "true");
