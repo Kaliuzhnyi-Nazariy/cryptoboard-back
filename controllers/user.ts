@@ -11,12 +11,12 @@ const getMe = (req: UserRequest, res: Response) => {
   const data = req.user;
 
   if (!data) {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/",
-    });
+    // res.clearCookie("token", {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    //   path: "/",
+    // });
 
     return res.status(401).json({ message: "Unauthorized" });
   }

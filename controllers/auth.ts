@@ -52,14 +52,6 @@ const signUp = async (req: Request<{}, {}, SignUpUser>, res: Response) => {
     { new: true }
   ).select("-password");
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    maxAge: 1 * 24 * 60 * 60 * 1000,
-  });
-
   return res.status(201).json(updUser);
 };
 
@@ -92,43 +84,6 @@ const signIn = async (req: Request<{}, {}, SignInUser>, res: Response) => {
     { new: true }
   ).select("-password");
 
-  // res.cookie("check", "check", {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "production",
-  //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  //   path: "/",
-  //   maxAge: 1 * 24 * 60 * 60 * 1000,
-  // });
-
-  res.cookie("token", newToken, {
-    httpOnly: true,
-    domain:
-      process.env.NODE_ENV === "production"
-        ? "cryptoboard-rho.vercel.app"
-        : "localhost",
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    maxAge: 1 * 24 * 60 * 60 * 1000,
-  });
-
-  // res
-  //   .writeHead(200, {
-  //     "set-cookie": "check=check; HttpOnly",
-  //     "access-control-allow-credentials": "true",
-  //     "access-control-max-age": "24*60*60*1000",
-  //     SameSite: "none",
-  //   })
-  //   .send();
-
-  // .cookie("token", newToken, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === "production",
-  //   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  //   path: "/",
-  //   maxAge: 1 * 24 * 60 * 60 * 1000,
-  // })
-  // return res.status(200).json(updUser);
   res.status(200).json(updUser);
 };
 
@@ -146,14 +101,6 @@ const signOut = async (req: Request, res: Response) => {
     { token: "" },
     { new: true }
   ).select("-password");
-
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    path: "/",
-    maxAge: 1 * 24 * 60 * 60 * 1000,
-  });
 
   return res.status(200).json(updUser);
 };
